@@ -1,0 +1,67 @@
+version: '2'
+services:
+  rabbitmq-server:
+    image: rabbitmq:3-management-alpine
+    hostname: rabbitmq
+    container_name: rabbitmq
+    restart: always
+    ports:
+    - "127.0.0.1:5672:5672"
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    environment:
+      - STORAGE_TYPE=mysql
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=root
+      - MYSQL_PASS=123456789
+      # - SCRIBE_ENABLED=false
+      # - SELF_TRACING_ENABLED=true
+      # - JAVA_OPTS=-Dlogging.level.zipkin=DEBUG
+    ports:
+      - "127.0.0.1:9411:9411"
+    depends_on:
+      - mysql
+  dependencies:
+    image: openzipkin/zipkin-dependencies
+    container_name: dependencies
+    entrypoint: crond -f
+    environment:
+      - STORAGE_TYPE=mysql
+      - MYSQL_HOST=172.18.85.138
+      - MYSQL_USER=root
+      - MYSQL_PASS=dctpdb123
+      - JAVA_OPTS=-verbose:gc -Xms1G -Xmx1G
+  zipkin-ui:
+    image: openzipkin/zipkin-ui
+    container_name: zipkin-ui
+    environment:
+      - ZIPKIN_BASE_URL=http://zipkin:9411
+    depends_on:
+      - zipkin
+  mysql:
+    image: mysql:5.7
+    hostname: mysql
+    container_name: mysql
+    restart: always
+    volumes:
+    - ./data/mysql/data:/var/lib/mysql
+    - ./data/mysql/conf:/etc/mysql/conf.d
+    - ./data/mysql/logs:/opt/local/mysql/logs
+    - ./data/mysql/binlog:/opt/local/mysql/binlog
+    environment:
+    - MYSQL_ROOT_PASSWORD=123456789
+    ports:
+    - "127.0.0.1:3306:3306"
+  redis:
+    image: redis:3-alpine
+    hostname: redis
+    container_name: redis
+    restart: always
+    volumes:
+    - ./data/redis/data:/data
+    - ./data/redis/conf/redis.conf:/opt/local/redis/redis.conf
+    ports:
+    - "127.0.0.1:6379:6379"
+    command:
+    - "/opt/local/redis/redis.conf"
