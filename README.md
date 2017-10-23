@@ -2,7 +2,9 @@
 
 ## 初始化 init
 
+```
 sh init.sh
+```
 
 ## 修改 IP
 
