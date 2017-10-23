@@ -30,7 +30,7 @@ services:
       - STORAGE_TYPE=mysql
       - MYSQL_HOST=mysql
       - MYSQL_USER=root
-      - MYSQL_PASS=dctpdb123
+      - MYSQL_PASS=123456789
       - JAVA_OPTS=-verbose:gc -Xms1G -Xmx1G
   zipkin-ui:
     image: openzipkin/zipkin-ui
