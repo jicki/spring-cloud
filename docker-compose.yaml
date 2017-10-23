@@ -28,7 +28,7 @@ services:
     entrypoint: crond -f
     environment:
       - STORAGE_TYPE=mysql
-      - MYSQL_HOST=172.18.85.138
+      - MYSQL_HOST=mysql
       - MYSQL_USER=root
       - MYSQL_PASS=dctpdb123
       - JAVA_OPTS=-verbose:gc -Xms1G -Xmx1G
