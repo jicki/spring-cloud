@@ -10,6 +10,7 @@ services:
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
+    restart: always
     environment:
       - STORAGE_TYPE=mysql
       - MYSQL_HOST=mysql
@@ -25,6 +26,7 @@ services:
   dependencies:
     image: openzipkin/zipkin-dependencies
     container_name: dependencies
+    restart: always
     entrypoint: crond -f
     environment:
       - STORAGE_TYPE=mysql
@@ -35,6 +37,7 @@ services:
   zipkin-ui:
     image: openzipkin/zipkin-ui
     container_name: zipkin-ui
+    restart: always
     environment:
       - ZIPKIN_BASE_URL=http://zipkin:9411
     depends_on:
