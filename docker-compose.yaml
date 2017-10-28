@@ -5,6 +5,12 @@ services:
     hostname: rabbitmq
     container_name: rabbitmq
     restart: always
+   # environment:
+    #  - RABBITMQ_DEFAULT_USER=user
+    #  - RABBITMQ_DEFAULT_PASS=passwd
+    #  - RABBITMQ_DEFAULT_VHOST=my_vhost
+    volumes:
+    - ./data/rabbitmq:/var/lib/rabbitmq
     ports:
     - "127.0.0.1:5672:5672"
   zipkin:
