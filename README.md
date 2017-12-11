@@ -116,4 +116,17 @@ spec:
   selector:
     app: eureka
 
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: eureka-ingress
+spec:
+  rules:
+  - host: eureka.jicki.me
+    http:
+      paths:
+      - backend:
+          serviceName: eureka-cluster
+          servicePort: 8761
 ```
