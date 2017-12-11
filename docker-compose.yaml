@@ -74,3 +74,12 @@ services:
     - "127.0.0.1:6379:6379"
     command:
     - "/opt/local/redis/redis.conf"
+  eureka-1:
+    image: jicki/eureka-cluster
+    hostname: eureka-1
+    container_name: eureka-1
+    restart: always
+    environment:
+    - EUREKA_SERVER_LIST=http://eureka-1:8761/eureka/
+    ports:
+    - 8761:8761
